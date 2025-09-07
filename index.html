@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LojaStyle</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f5f5f5;
+      color: #333;
+    }
+    header {
+      background: #111;
+      color: white;
+      padding: 15px;
+      text-align: center;
+    }
+    .produtos {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin: 20px;
+    }
+    .produto {
+      background: white;
+      border-radius: 8px;
+      margin: 10px;
+      padding: 15px;
+      width: 200px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    .produto img {
+      max-width: 100%;
+      border-radius: 8px;
+    }
+    button {
+      background: #111;
+      color: white;
+      border: none;
+      padding: 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    button:hover {
+      background: #333;
+    }
+    #carrinho {
+      background: white;
+      padding: 20px;
+      margin: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>LojaStyle</h1>
+    <p>Moda que combina com você</p>
+  </header>
+
+  <section class="produtos">
+    <div class="produto">
+      <img src="https://via.placeholder.com/200x150" alt="Camisa">
+      <h3>Camisa Estilosa</h3>
+      <p>R$ 59,90</p>
+      <button onclick="adicionarCarrinho('Camisa Estilosa', 59.90)">Adicionar</button>
+    </div>
+
+    <div class="produto">
+      <img src="https://via.placeholder.com/200x150" alt="Calça">
+      <h3>Calça Jeans</h3>
+      <p>R$ 120,00</p>
+      <button onclick="adicionarCarrinho('Calça Jeans', 120.00)">Adicionar</button>
+    </div>
+
+    <div class="produto">
+      <img src="https://via.placeholder.com/200x150" alt="Tênis">
+      <h3>Tênis Branco</h3>
+      <p>R$ 199,90</p>
+      <button onclick="adicionarCarrinho('Tênis Branco', 199.90)">Adicionar</button>
+    </div>
+  </section>
+
+  <section id="carrinho">
+    <h2>Carrinho</h2>
+    <ul id="lista-carrinho"></ul>
+    <p id="total">Total: R$ 0,00</p>
+    <button onclick="checkout()">Finalizar Compra</button>
+  </section>
+
+  <script>
+    let cart = [];
+    let total = 0;
+
+    function adicionarCarrinho(produto, preco) {
+      cart.push({produto, preco});
+      total += preco;
+      atualizarCarrinho();
+    }
+
+    function atualizarCarrinho() {
+      let lista = document.getElementById("lista-carrinho");
+      lista.innerHTML = "";
+      cart.forEach(item => {
+        let li = document.createElement("li");
+        li.textContent = item.produto + " - R$ " + item.preco.toFixed(2);
+        lista.appendChild(li);
+      });
+      document.getElementById("total").textContent = "Total: R$ " + total.toFixed(2);
+    }
+
+    function checkout() {
+      if (cart.length === 0) {
+        alert("Seu carrinho está vazio!");
+      } else {
+        let mensagem = "🛒 Olá, quero finalizar minha compra na LojaStyle:%0A%0A";
+        cart.forEach(item => {
+          mensagem += `• ${item.produto} - R$ ${item.preco.toFixed(2)}%0A`;
+        });
+        mensagem += `%0ATotal: R$ ${total.toFixed(2)}%0A%0A`;
+
+        let numero = "5522997106903"; // seu número do WhatsApp
+        let url = `https://wa.me/${numero}?text=${mensagem}`;
+        window.open(url, "_blank");
+      }
+    }
+  </script>
+</body>
+</html>
